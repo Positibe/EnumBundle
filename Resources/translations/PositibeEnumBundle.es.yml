@@ -1,0 +1,10 @@
+enum_type:
+    form:
+        name_label: Nombre:
+        text_label: Texto de presentación:
+enum:
+    form:
+        name_label: Nombre:
+        text_label: Texto de presentación:
+        type_label: Tipo:
+        locale_label: Idioma:

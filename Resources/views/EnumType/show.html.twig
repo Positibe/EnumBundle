@@ -1,0 +1,56 @@
+{% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Tipos de enumeradores{% endblock %}
+    {% block subtitle %}{{ enum_type.name | upper }}{% endblock %}
+    {% set menu_active = 'enumtype' %}
+    {% set content_menu = 'enumtype' %}
+
+    {% block breadcrumb_list %}
+        <li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_enum_type_index') }}">Tipos de enumeradores</a>
+        </li>
+        <li>
+            <i class="fa fa-angle-right"></i>
+            {{ enum_type.name | upper }}
+        </li>
+    {% endblock %}
+
+    {% block content -%}
+
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <p class="caption-subject font-green-sharp bold uppercase">
+                        <i class="fa fa-book"></i> Tipo de enumeradores: {{ enum_type.name | upper }}
+                    </p>
+                </div>
+                <div class="actions">
+                    <a href="{{ path('positibe_enum_type_index') }}"
+                       name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
+
+                    <a href="{{ path('positibe_enum_type_update', { 'name': enum_type.name }) }}"
+                       class="btn btn-default btn-circle">
+                        <i class="fa fa-edit"></i> Editar
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs nav-tabs-lg">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                                Detalles </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <h4><strong>Nombre:</strong> {{ enum_type.name | upper }}</h4>
+                            <h4><strong>Texto de presentación:</strong> {{ enum_type.text }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock -%}

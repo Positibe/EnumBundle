@@ -1,0 +1,4 @@
+<option value="">{{ 'Todos' }}</option>
+{% for type in types %}
+    <option {% if type_selected == type.name %}selected="selected"{% endif %} value="{{ type.name }}">{{type.name | upper }}</option>
+{% endfor %}

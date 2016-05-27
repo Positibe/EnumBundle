@@ -1,0 +1,9 @@
+#positibe_enum_enum_type:
+#    resource: "@PositibeEnumBundle/Resources/config/routing/enum_type.yml"
+#    prefix:   /enum_type
+
+positibe_enum_enum:
+    resource: "@PositibeEnumBundle/Resources/config/routing/enum.yml"
+    prefix:   /enum
+
+

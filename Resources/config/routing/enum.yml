@@ -1,0 +1,67 @@
+positibe_enum_types:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.enum_type:indexAction
+        _sylius:
+            template: PositibeEnumBundle:Enum:types.html.twig
+            sortable: true
+
+positibe_enum_create:
+    path: /{type}/new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.enum:createAction
+        _sylius:
+            factory:
+                method: createNewByType
+                arguments: [$type]
+            redirect:
+                route: positibe_enum_show
+                parameters: {name: resource.name}
+
+positibe_enum_show:
+    path: /{type}/{name}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.enum:showAction
+        _sylius:
+            criteria:
+                name: $name
+                type: $type
+
+positibe_enum_update:
+    path: /{type}/{name}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.enum:updateAction
+        _sylius:
+            criteria:
+                name: $name
+                type: $type
+            redirect:
+                route: positibe_enum_show
+                parameters: {name: resource.name}
+
+positibe_enum_delete:
+    path: /{type}/{name}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.enum:deleteAction
+        _sylius:
+            criteria:
+                name: $name
+                type: $type
+            redirect:
+                route: positibe_enum_index
+                parameters: {type: $type}
+
+positibe_enum_index:
+    path: /{type}/
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.enum:indexAction
+        _sylius:
+            sortable: true
+            criteria:
+                type: $type

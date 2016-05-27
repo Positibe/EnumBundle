@@ -1,0 +1,25 @@
+{% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Tipos de enumeradores{% endblock %}
+    {% block subtitle %}Crear nuevo tipo de enumerador{% endblock %}
+    {% set menu_active = 'enum' %}
+    {% set content_menu = 'enumtype' %}
+
+    {% block breadcrumb_list %}
+        <li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_enum_type_index') }}">Tipos de enumeradores</a>
+        </li>
+        <li>
+            <i class="fa fa-angle-right"></i>
+            Nuevo tipo de enumerador
+        </li>
+    {% endblock %}
+
+    {% block content -%}
+
+        {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+        {{ include('@PositibeEnum/EnumType/_form.html.twig') }}
+        {{ form_end(form) }}
+
+    {% endblock -%}
