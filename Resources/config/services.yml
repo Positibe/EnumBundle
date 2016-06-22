@@ -25,3 +25,9 @@ services:
         class: Positibe\Bundle\EnumBundle\Form\Type\ChoiceEnumType
         tags:
             - { name: form.type, alias: positibe_choice_enum }
+
+    positibe_enum.enum.factory:
+        class: Positibe\Bundle\EnumBundle\Factory\EnumFactory
+        arguments: ['Positibe\Bundle\EnumBundle\Entity\Enum']
+        calls:
+            - [setEm, [@doctrine.orm.entity_manager]]

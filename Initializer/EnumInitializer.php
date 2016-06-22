@@ -52,7 +52,7 @@ class EnumInitializer
         foreach ($this->enumTypes as $typeName => $enums) {
             /** @var EnumType $type */
             if (null === $type = $this->enumTypeRepository->findOneBy(array('name' => $typeName))) {
-                $type = $this->enumTypeRepository->createNew();
+                $type = new EnumType();
                 $type->setName($typeName);
 
                 $this->enumTypeManager->persist($type);
@@ -61,7 +61,7 @@ class EnumInitializer
             foreach ($enums as $enumName => $enumText) {
                 /** @var Enum $enum */
                 if (null === $enum = $this->enumRepository->findOneBy(array('name' => $enumName))) {
-                    $enum = $this->enumRepository->createNew();
+                    $enum = new Enum();
 
                 }
                 $enum->setName($enumName);

@@ -67,16 +67,4 @@ class EnumRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
-    public function createNewByType($type)
-    {
-        /** @var Enum $enum */
-        $enum =  $this->createNew();
-        $enumTypeRepository = $this->getEntityManager()->getRepository('PositibeEnumBundle:EnumType');
-        if ($enumType = $enumTypeRepository->findOneBy(array('name' => $type))) {
-            $enum->setType($enumType);
-        }
-
-        return $enum;
-    }
 } 
