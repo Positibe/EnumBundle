@@ -17,7 +17,7 @@ class EnumFormType extends AbstractType
 {
     private $locales;
 
-    public function __construct($locales)
+    public function __construct($locales = [])
     {
         $this->locales = $locales;
     }
@@ -31,16 +31,19 @@ class EnumFormType extends AbstractType
         $builder
             ->add('name', null, array('label' => 'enum.form.name_label'))
             ->add('text', null, array('label' => 'enum.form.text_label'))
-            ->add('type', null, array('label' => 'enum.form.type_label', 'property' => 'getUpperName'))
-            ->add(
-                'locale',
-                'choice',
-                array(
-                    'label' => 'enum.form.locale_label',
-                    'choices' => array_combine($this->locales, $this->locales),
-                    'translation_domain' => 'messages'
-                )
-            );
+            ->add('type', null, array('label' => 'enum.form.type_label', 'property' => 'getUpperName'));
+
+            if (count($this->locales) > 0) {
+                $builder->add(
+                    'locale',
+                    'choice',
+                    array(
+                        'label' => 'enum.form.locale_label',
+                        'choices' => array_combine($this->locales, $this->locales),
+                        'translation_domain' => 'messages'
+                    )
+                );
+            }
     }
 
     /**

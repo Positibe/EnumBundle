@@ -52,6 +52,7 @@ positibe_enum_delete:
             criteria:
                 name: $name
                 type: $type
+                deletable: true
             redirect:
                 route: positibe_enum_index
                 parameters: {type: $type}

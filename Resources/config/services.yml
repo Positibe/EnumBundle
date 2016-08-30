@@ -10,7 +10,9 @@ services:
 #Servicio autogenerado por Pcabreus Generator 
     positibe_enum.enum.form:
         class: Positibe\Bundle\EnumBundle\Form\Type\EnumFormType
-        arguments: [%locales%]
+        arguments: ["@=container.hasParameter('locales') ? parameter('locales') : []"]
+#        calls:
+#            - [setLocales, [%locales%]]
         tags:
             - { name: form.type, alias: positibe_enum }
 

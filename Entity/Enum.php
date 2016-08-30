@@ -49,6 +49,13 @@ class Enum
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="deletable", type="boolean", nullable=TRUE)
+     */
+    private $deletable = true;
+
+    /**
      * @Gedmo\Locale
      * Used locale to override Translation listener`s locale
      * this is not a mapped field of entity metadata, just a simple property
@@ -152,5 +159,21 @@ class Enum
         $this->locale = $locale;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeletable()
+    {
+        return $this->deletable;
+    }
+
+    /**
+     * @param string $deletable
+     */
+    public function setDeletable($deletable)
+    {
+        $this->deletable = $deletable;
     }
 }

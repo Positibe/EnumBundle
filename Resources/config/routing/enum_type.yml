@@ -37,6 +37,7 @@ positibe_enum_type_delete:
         _sylius:
             criteria:
                 name: $name
+                deletable: true
             redirect:
                 route: positibe_enum_type_index
                 parameters: {}
