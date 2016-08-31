@@ -28,8 +28,9 @@
     <input type="hidden" name="_method" value="PUT"/>
     {{ include('@PositibeEnum/Enum/_form.html.twig') }}
     {{ form_end(form) }}
-    {{ delete_confirm('positibe_enum_remove', path('positibe_enum_delete', {'type': app.request.get('type'), 'name': enum.name }) ) }}
-
+    {% if enum.deletable %}
+        {{ delete_confirm('positibe_enum_remove', path('positibe_enum_delete', {'type': app.request.get('type'), 'name': enum.name }) ) }}
+    {% endif %}
 {% endblock -%}
 
 {% block javascripts %}

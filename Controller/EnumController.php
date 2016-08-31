@@ -10,8 +10,9 @@
 
 namespace Positibe\Bundle\EnumBundle\Controller;
 
+use Positibe\Bundle\EnumBundle\Entity\Enum;
+use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class EnumController
@@ -37,19 +38,19 @@ class EnumController extends ResourceController
     /**
      * Load the correct locale for seo and menus depend of data_locale http parameter
      *
-     * @param Request $request
-     * @param array $criteria
-     * @return object|void
+     * @param RequestConfiguration $configuration
+     * @return Enum|\Sylius\Component\Resource\Model\ResourceInterface
      */
-    public function findOr404(Request $request, array $criteria = array())
+    protected function findOr404(RequestConfiguration $configuration)
     {
-        $enum = parent::findOr404($request, $criteria);
-
-        if ( $dataLocale = $request->get('data_locale')) {
+        /** @var Enum $enum */
+        $enum = parent::findOr404($configuration);
+        if ($dataLocale = $configuration->getRequest()->get('data_locale')) {
             $enum->setLocale($dataLocale);
             $this->get('doctrine.orm.entity_manager')->refresh($enum);
         }
 
         return $enum;
     }
-} 
+
+}

@@ -30,7 +30,8 @@
                 </div>
                 <div class="actions">
                     <a href="{{ path('positibe_enum_types') }}"
-                       class="btn btn-sm btn-default btn-circle"><i class="fa fa-angle-left"></i> Volver a tipos de enumeradores</a>
+                       class="btn btn-sm btn-default btn-circle"><i class="fa fa-angle-left"></i> Volver a tipos de
+                        enumeradores</a>
                     <a href="{{ path('positibe_enum_create', {'type': app.request.get('type')}) }}"
                        class="btn btn-sm btn-default btn-circle"><i
                                 class="fa
@@ -41,19 +42,13 @@
                 {{ pagination(enums) }}
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
-                        <th>No.</th>
-                        <th class="col-lg-3">Nombre</th>
-                        <th class="col-lg-3">Texto de presentación</th>
-                        <th class="col-lg-3">Tipo de enumerador</th>
-                        <th>Acciones</th>
+                        <th style="width: 60px">No.</th>
+                        <th>Presentación</th>
+                        <th>Tipo de enumerador</th>
+                        <th style="width: 95px">Acciones</th>
                     </tr>
                     <tr>
                         <th></th>
-                        <th>
-                            <input type="text" name="criteria[name]" id="criteria_name"
-                                   class="form-control input-sm" form="form_enum_filter"
-                                   value="{{ app.request.get('criteria').name | default() }}">
-                        </th>
                         <th>
                             <input type="text" name="criteria[text]" id="criteria_text"
                                    class="form-control input-sm" form="form_enum_filter"
@@ -80,10 +75,10 @@
                         <tr>
                             <td>{{ count + loop.index }}</td>
                             <td>
-                                <a href="{{ path('positibe_enum_update', {'type':app.request.get('type'), 'name': enum.name }) }}">{{ enum.name | upper }}</a>
+                                <a href="{{ path('positibe_enum_update', {'type':app.request.get('type'), 'name': enum.name }) }}">{{ enum.text }}</a>
+
                             </td>
-                            <td>{{ enum.text }}</td>
-                            <td>{{ enum.type.name | trans({}, 'PositibeEnumBundle') | upper }}</td>
+                            <td>{{ enum.type }}</td>
                             <td>
                                 <div class="input-group">
                                     <a class="btn btn-default btn-xs"

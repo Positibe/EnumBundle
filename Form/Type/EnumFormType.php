@@ -31,8 +31,7 @@ class EnumFormType extends AbstractType
         $builder
             ->add('name', null, array('label' => 'enum.form.name_label'))
             ->add('text', null, array('label' => 'enum.form.text_label'))
-            ->add('type', null, array('label' => 'enum.form.type_label', 'property' => 'getUpperName'));
-
+            ->add('type', null, array('label' => 'enum.form.type_label'));
             if (count($this->locales) > 0) {
                 $builder->add(
                     'locale',

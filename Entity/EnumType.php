@@ -5,6 +5,7 @@ namespace Positibe\Bundle\EnumBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Sluggable\Util\Urlizer;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class EnumType
+class EnumType implements ResourceInterface
 {
     /**
      * @var integer
@@ -64,7 +65,7 @@ class EnumType
 
     public function __toString()
     {
-        return $this->text;
+        return $this->text ? $this->text : $this->getUpperName() . '*';
     }
 
     public function getUpperName()

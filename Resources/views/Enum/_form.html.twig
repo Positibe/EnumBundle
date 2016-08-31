@@ -12,7 +12,7 @@
             <a href="{{ app.request.server.get('REQUEST_URI') }}" class="btn btn-default btn-circle "><i
                         class="fa fa-reply"></i> Resetear</a>
             <button class="btn green-haze btn-circle" type="submit"><i class="fa fa-check"></i> Guardar</button>
-            {% if enum is defined and enum.id is not null %}
+            {% if enum is defined and enum.id is not null and enum.deletable %}
                 <a class="btn red-haze btn-circle" data-toggle="modal" href="#positibe_enum_remove">
                     <i class="fa fa-trash"></i> Remover
                 </a>
@@ -27,9 +27,11 @@
                 <li class="active">
                     <a href="#form_congress_tab_basic" data-toggle="tab" aria-expanded="true">Información básica</a>
                 </li>
+                {% if form.locale is defined %}
                 <li class="pull-right">
                     {{ form_widget(form.locale, {'attr': {'class': 'dropdown pull-right btn btn-circle' }}) }}
                 </li>
+                {% endif %}
             </ul>
             <div class="tab-content">
 

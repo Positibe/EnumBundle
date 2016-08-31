@@ -55,6 +55,11 @@ class EnumInitializer
                 $type = new EnumType();
                 $type->setName($typeName);
 
+                if (isset($enums['_name'])) {
+                    $type->setText($enums['_name']);
+                    unset($enums['_name']);
+                }
+
                 $this->enumTypeManager->persist($type);
             }
 
@@ -65,6 +70,7 @@ class EnumInitializer
 
                 }
                 $enum->setName($enumName);
+                $enum->setDeletable(false);
                 $enum->setText($enumText);
                 $enum->setType($type);
 

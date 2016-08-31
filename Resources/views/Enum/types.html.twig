@@ -11,7 +11,7 @@
     {% block breadcrumb_list %}
         <li>
             <i class="fa fa-angle-right"></i>
-            <a href="{{ path('positibe_enum_types') }}">Tipos de enumeradores</a>
+            <a href="{{ path('positibe_enum_types') }}">Enumeradores</a>
         </li>
     {% endblock %}
 
@@ -29,14 +29,12 @@
                 {{ pagination(enum_types) }}
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
-                        <th>No.</th>
-                        <th class="col-lg-6">Nombre</th>
+                        <th style="width: 60px">No.</th>
                         <th>Presentación</th>
                         <th>Enumeradores</th>
-                        <th>Acciones</th>
+                        <th style="width: 95px">Acciones</th>
                     </tr>
                     <tr>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -53,15 +51,15 @@
                     {% for enum_type in enum_types %}
                         <tr>
                             <td>{{ count + loop.index }}</td>
-                            <td>
-                                <a href="{{ path('positibe_enum_index', { 'type': enum_type.name }) }}">{{ enum_type.name | trans({}, 'PositibeEnumBundle')| upper  }}</a>
-                            </td>
-                            <td>{{ enum_type.text }}</td>
+
+                            <td><a href="{{ path('positibe_enum_index', { 'type': enum_type.name }) }}">{{ enum_type.text  }}</a></td>
                             <td>
                                 <a class="badge badge-{% if enum_type.enums | length == 0 %}warning{% else %}success{% endif %}"
                                    href="{{ path('positibe_enum_index', { 'type': enum_type.name }) }}">
-                                    <strong>{{ enum_type.enums |length }}</strong>
+                                    <strong>{{ enum_type.enums | length }}</strong>
                                 </a>
+
+                                <p class="text-muted">{{ enum_type.enums | join(', ') | truncate(100) }}</p>
                             </td>
                             <td>
                                 <div class="input-group">
