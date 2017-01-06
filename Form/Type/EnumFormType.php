@@ -30,19 +30,20 @@ class EnumFormType extends AbstractType
     {
         $builder
             ->add('name', null, array('label' => 'enum.form.name_label'))
+            ->add('position', null, array('label' => 'enum.form.position_label'))
             ->add('text', null, array('label' => 'enum.form.text_label'))
             ->add('type', null, array('label' => 'enum.form.type_label'));
-            if (count($this->locales) > 0) {
-                $builder->add(
-                    'locale',
-                    'choice',
-                    array(
-                        'label' => 'enum.form.locale_label',
-                        'choices' => array_combine($this->locales, $this->locales),
-                        'translation_domain' => 'messages'
-                    )
-                );
-            }
+        if (count($this->locales) > 0) {
+            $builder->add(
+                'locale',
+                'choice',
+                array(
+                    'label' => 'enum.form.locale_label',
+                    'choices' => array_combine($this->locales, $this->locales),
+                    'translation_domain' => 'messages',
+                )
+            );
+        }
     }
 
     /**
@@ -53,7 +54,7 @@ class EnumFormType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'Positibe\Bundle\EnumBundle\Entity\Enum',
-                'translation_domain' => 'PositibeEnumBundle'
+                'translation_domain' => 'PositibeEnumBundle',
             )
         );
     }

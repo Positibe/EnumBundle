@@ -36,7 +36,7 @@ class EnumInitializerCommand extends ContainerAwareCommand
         try {
             $inializer->initialize();
         } catch (\Exception $e) {
-            $output->writeln($e->getMessage());
+            $output->writeln('Error: ' . $e->getMessage());
         }
 
         $output->writeln('<info>Enumeradores cargados en base de datos</info>');

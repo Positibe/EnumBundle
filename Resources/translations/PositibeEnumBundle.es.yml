@@ -5,6 +5,7 @@ enum_type:
 enum:
     form:
         name_label: Nombre:
+        position_label: Posición:
         text_label: Texto de presentación:
         type_label: Tipo:
         locale_label: Idioma:

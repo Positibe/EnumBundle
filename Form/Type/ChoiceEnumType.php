@@ -38,7 +38,9 @@ class ChoiceEnumType extends AbstractType
                 $type = $options['enum_type'];
                 return $er->createQueryBuilder('u')
                     ->join('u.type', 'type')
-                    ->where('type.name = :type')->setParameter('type', $type);
+                    ->where('type.name = :type')
+                    ->orderBy('u.position', 'ASC')
+                    ->setParameter('type', $type);
             };
 
             //loader function

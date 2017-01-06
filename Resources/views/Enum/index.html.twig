@@ -45,6 +45,7 @@
                         <th style="width: 60px">No.</th>
                         <th>Presentación</th>
                         <th>Tipo de enumerador</th>
+                        <th>Posición</th>
                         <th style="width: 95px">Acciones</th>
                     </tr>
                     <tr>
@@ -61,6 +62,9 @@
                                 {{ render(controller('positibe.controller.enum:showTypeFilterAction', {'typeSelected': type_selected})) }}
                             </select>
                         </th>
+                        <th>
+                        </th>
+
                         <th>
                             <div class="input-group-btn">
                                 <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit"
@@ -79,6 +83,7 @@
 
                             </td>
                             <td>{{ enum.type }}</td>
+                            <td>{{ enum.position }}</td>
                             <td>
                                 <div class="input-group">
                                     <a class="btn btn-default btn-xs"

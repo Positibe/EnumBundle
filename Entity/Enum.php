@@ -5,7 +5,7 @@ namespace Positibe\Bundle\EnumBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Sluggable\Util\Urlizer;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="positibe_enum")
  * @ORM\Entity(repositoryClass="Positibe\Bundle\EnumBundle\Repository\EnumRepository")
- * @UniqueEntity("name")
+ * @UniqueEntity(fields={"name", "type"},errorPath="name", repositoryMethod="findByNameAndType")
  * @Gedmo\TranslationEntity(class="Positibe\Bundle\EnumBundle\Entity\EnumTranslation")
  */
 class Enum implements ResourceInterface
@@ -30,7 +30,7 @@ class Enum implements ResourceInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=TRUE)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -43,8 +43,15 @@ class Enum implements ResourceInterface
     private $text;
 
     /**
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
+
+    /**
      * @var EnumType
      *
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Positibe\Bundle\EnumBundle\Entity\EnumType", inversedBy="enums")
      */
     private $type;
@@ -176,5 +183,21 @@ class Enum implements ResourceInterface
     public function setDeletable($deletable)
     {
         $this->deletable = $deletable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param mixed $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 }

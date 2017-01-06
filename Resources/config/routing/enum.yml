@@ -18,7 +18,7 @@ positibe_enum_create:
                 arguments: [$type]
             redirect:
                 route: positibe_enum_show
-                parameters: {name: resource.name}
+                parameters: {name: resource.name, type: $type}
 
 positibe_enum_show:
     path: /{type}/{name}
@@ -41,7 +41,7 @@ positibe_enum_update:
                 type: $type
             redirect:
                 route: positibe_enum_show
-                parameters: {name: resource.name}
+                parameters: {name: resource.name, type: resource.type.name}
 
 positibe_enum_delete:
     path: /{type}/{name}
@@ -64,5 +64,7 @@ positibe_enum_index:
         _controller: positibe.controller.enum:indexAction
         _sylius:
             sortable: true
+            sorting:
+                position: asc
             criteria:
                 type: $type

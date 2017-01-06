@@ -13,6 +13,8 @@ namespace Positibe\Bundle\EnumBundle\Controller;
 use Positibe\Bundle\EnumBundle\Entity\Enum;
 use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Class EnumController
@@ -22,6 +24,10 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
  */
 class EnumController extends ResourceController
 {
+    /**
+     * @param $typeSelected
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showTypeFilterAction($typeSelected)
     {
         $types = $this->get('positibe.repository.enum_type')->findAll();
@@ -30,9 +36,42 @@ class EnumController extends ResourceController
             '@PositibeEnum/Enum/_type_selected.html.twig',
             array(
                 'types' => $types,
-                'type_selected' => $typeSelected
+                'type_selected' => $typeSelected,
             )
         );
+    }
+
+    /**
+     * Change an enum of an entity
+     *
+     * Warning: You most configure it in your routing.yml because it has not routing configuration
+     *
+     * @param Request $request
+     * @param $class
+     * @param $id
+     * @param $field
+     * @param $enum
+     * @param $type
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Throwable
+     * @throws \TypeError
+     */
+    public function changeEnumAction(Request $request, $class, $id, $field, $enum, $type)
+    {
+        $enum = $this->get('positibe.repository.enum')->findEnumByType($enum, $type);
+        if ($enum !== null && $repository = $this->getDoctrine()->getRepository($class)
+        ) {
+            if ($object = $repository->find($id)) {
+                $accessor = PropertyAccess::createPropertyAccessor();
+                $accessor->setValue($object, $field, $enum);
+                $this->get('doctrine.orm.default_entity_manager')->persist($object);
+                $this->get('doctrine.orm.default_entity_manager')->flush();
+            }
+        }
+
+        $referer = $request->get('referer') ?: $request->server->get('HTTP_REFERER');
+
+        return $this->redirect($referer);
     }
 
     /**

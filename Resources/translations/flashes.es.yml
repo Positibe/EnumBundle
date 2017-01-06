@@ -1,0 +1,9 @@
+positibe:
+    enum:
+        create: El nomenclador se ha creado con éxito.
+        update: El nomenclador se ha actualizado con éxito.
+        delete: El nomenclador se ha eliminado con éxito.
+    enum_type:
+        create: La lista de nomencladores se ha creado con éxito.
+        update: La lista de nomencladores se ha actualizado con éxito.
+        delete: La lista de nomencladores se ha eliminado con éxito.
