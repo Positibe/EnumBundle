@@ -67,8 +67,8 @@ class EnumInitializer
             }
             unset($enums['_name']);
 
-            foreach ($enums as $enumName => $enumText) {
-                $name = Urlizer::urlize($enumName);
+            foreach ($enums as $name => $enumText) {
+                $name = Urlizer::urlize($name, '_');
                 if (!$enum = $this->enumRepository->findEnumByType($name, $typeName)) {
                     $enum = new Enum();
                 }

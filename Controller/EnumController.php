@@ -62,10 +62,11 @@ class EnumController extends ResourceController
         if ($enum !== null && $repository = $this->getDoctrine()->getRepository($class)
         ) {
             if ($object = $repository->find($id)) {
+                $manager = $this->get('doctrine.orm.entity_manager');
                 $accessor = PropertyAccess::createPropertyAccessor();
                 $accessor->setValue($object, $field, $enum);
-                $this->get('doctrine.orm.default_entity_manager')->persist($object);
-                $this->get('doctrine.orm.default_entity_manager')->flush();
+                $manager->persist($object);
+                $manager->flush();
             }
         }
 

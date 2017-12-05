@@ -26,9 +26,9 @@ positibe_enum_show:
     defaults:
         _controller: positibe.controller.enum:showAction
         _sylius:
-            criteria:
-                name: $name
-                type: $type
+            repository:
+                method: findOneByNameAndType
+                arguments: [{name: $name, type: $type}]
 
 positibe_enum_update:
     path: /{type}/{name}/edit
@@ -36,9 +36,9 @@ positibe_enum_update:
     defaults:
         _controller: positibe.controller.enum:updateAction
         _sylius:
-            criteria:
-                name: $name
-                type: $type
+            repository:
+                method: findOneByNameAndType
+                arguments: [{name: $name, type: $type}]
             redirect:
                 route: positibe_enum_show
                 parameters: {name: resource.name, type: resource.type.name}
@@ -49,10 +49,9 @@ positibe_enum_delete:
     defaults:
         _controller: positibe.controller.enum:deleteAction
         _sylius:
-            criteria:
-                name: $name
-                type: $type
-                deletable: true
+            repository:
+                method: findOneByNameAndType
+                arguments: [{name: $name, type: $type, deletable: true}]
             redirect:
                 route: positibe_enum_index
                 parameters: {type: $type}

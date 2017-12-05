@@ -96,10 +96,33 @@ class EnumRepository extends EntityRepository
         $qb = $this->getQueryBuilder()
             ->join($this->getAlias().'.type', 'type')
             ->andWhere($this->getAlias().'.name = :name')
-            ->andWhere('type = :type')
+            ->andWhere('type.name = :type')
             ->setParameter('type', $type)
             ->setParameter('name', $name);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $criteria
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByNameAndType($criteria)
+    {
+        $name = $criteria['name'];
+        $type = $criteria['type'];
+
+        $qb = $this->getQueryBuilder()
+            ->join($this->getAlias().'.type', 'type')
+            ->andWhere($this->getAlias().'.name = :name')
+            ->andWhere('type.name = :type')
+            ->setParameter('type', $type)
+            ->setParameter('name', $name);
+        if (isset($criteria['deletable']) && (Boolean)$criteria['deletable']) {
+            $qb->andWhere($this->getAlias().'.deletable IS TRUE');
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 } 

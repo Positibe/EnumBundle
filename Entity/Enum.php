@@ -82,7 +82,7 @@ class Enum implements ResourceInterface
 
     public function __toString()
     {
-        return $this->text;
+        return $this->text ?: $this->name;
     }
 
     public function getUpperName()
