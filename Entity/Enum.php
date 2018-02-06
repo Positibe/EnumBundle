@@ -4,7 +4,6 @@ namespace Positibe\Bundle\EnumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Sluggable\Util\Urlizer;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(fields={"name", "type"},errorPath="name", repositoryMethod="findByNameAndType")
  * @Gedmo\TranslationEntity(class="Positibe\Bundle\EnumBundle\Entity\EnumTranslation")
  */
-class Enum implements ResourceInterface
+class Enum
 {
     /**
      * @var integer

@@ -10,10 +10,10 @@
 
 namespace Positibe\Bundle\EnumBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Positibe\Bundle\EnumBundle\Entity\Enum;
 use Positibe\Bundle\EnumBundle\Entity\EnumType;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 
 /**

@@ -10,16 +10,12 @@
 
 namespace Positibe\Bundle\EnumBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityRepository;
-use Positibe\Bundle\EnumBundle\Model\HasEnumsInterface;
+use Symfony\Bridge\Doctrine\Form\ChoiceList\DoctrineChoiceLoader;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
 /**
@@ -30,53 +26,42 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class ChoiceEnumType extends AbstractType
 {
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $loader = function (Options $options) {
+        $choiceLoader = function (Options $options) {
             //query to find enum from a type
-            $queryBuilder = function (EntityRepository $er) use ($options) {
-                $type = $options['enum_type'];
-                return $er->createQueryBuilder('u')
-                    ->join('u.type', 'type')
-                    ->where('type.name = :type')
-                    ->orderBy('u.position', 'ASC')
-                    ->setParameter('type', $type);
-            };
+            $type = $options['enum_type'];
+            $queryBuilder = $options['em']->getRepository($options['class'])->createQueryBuilder('u')
+                ->join('u.type', 'type')
+                ->where('type.name = :type')
+                ->orderBy('u.position', 'ASC')
+                ->setParameter('type', $type);
+            $entityLoader = new ORMQueryBuilderLoader($queryBuilder);
 
-            //loader function
-            return new ORMQueryBuilderLoader(
-                $queryBuilder,
+            $doctrineChoiceLoader = new DoctrineChoiceLoader(
                 $options['em'],
-                $options['class']
+                $options['class'],
+                $options['id_reader'],
+                $entityLoader
             );
+
+            return $doctrineChoiceLoader;
         };
 
         $resolver->setDefaults(
             array(
                 'class' => 'PositibeEnumBundle:Enum',
-                'loader' => $loader
+                'choice_loader' => $choiceLoader,
+                'attr' => ['data-widget' => 'select2'],
             )
         );
 
-        $resolver->setRequired(array('enum_type'));
-        $resolver
-            ->addAllowedTypes('enum_type')
-            ->addAllowedTypes('enum_type', array('string'));
+        $resolver->setRequired(['enum_type']);
+        $resolver->addAllowedTypes('enum_type', ['string']);
     }
 
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
     }
-
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
-    public function getName()
-    {
-        return 'positibe_choice_enum';
-    }
-
-} 
+}

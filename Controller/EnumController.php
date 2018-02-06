@@ -10,9 +10,8 @@
 
 namespace Positibe\Bundle\EnumBundle\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use Positibe\Bundle\EnumBundle\Entity\Enum;
-use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
-use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -22,8 +21,23 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class EnumController extends ResourceController
+class EnumController extends AdminController
 {
+    // Creates the Doctrine query builder used to get all the items. Override it
+    // to filter the elements displayed in the listing
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        if (!$dqlFilter) {
+            $dqlFilter = '';
+        } else {
+            $dqlFilter .= ' AND ';
+        }
+        $dqlFilter .= sprintf("entity.type = '%s'", $this->request->query->get('type'));
+
+        return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+    }
+
+
     /**
      * @param $typeSelected
      * @return \Symfony\Component\HttpFoundation\Response

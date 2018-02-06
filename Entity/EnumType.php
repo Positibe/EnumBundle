@@ -5,7 +5,6 @@ namespace Positibe\Bundle\EnumBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Sluggable\Util\Urlizer;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class EnumType implements ResourceInterface
+class EnumType
 {
     /**
      * @var integer
