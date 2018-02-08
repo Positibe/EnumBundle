@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        EnumType:
+            class: Positibe\Bundle\EnumBundle\Entity\EnumType
+            controller: Positibe\Bundle\EnumBundle\Controller\EnumTypeController
+            list:
+                actions:
+                    - { name: 'enums',icon: 'tags', label: '', entity: 'Enum' }
+                fields:
+                    - { property: 'name', label: 'Nombre'}
+                    - { property: 'text', label: 'Descripción'}
+                    - { property: 'deletable', label: 'Puede borrarse'}
+                    - { property: 'enums', label: 'Cantidad de enumeradores'}
+        Enum:
+            class: Positibe\Bundle\EnumBundle\Entity\Enum
+            controller: Positibe\Bundle\EnumBundle\Controller\EnumController
+            list:
+                actions: [{name: 'moveUp', icon: 'angle-up', label: ''},{name: 'moveDown', icon: 'angle-down', label: ''}]
+                sort: ['position', 'ASC']
+                fields:
+                    - { property: 'text', label: 'Enumerador'}
+                    - { property: 'name', label: 'Código'}
+                    - { property: 'position', label: 'Orden'}
+                    - { property: 'type', label: 'Tipo'}
+            form:
+                fields:
+                    - { property: 'text', label: 'Enumerador'}
+                    - { property: 'name', label: 'Código'}
+                    - { property: 'position', label: 'Orden', type_options: {'required': false}}
+                    - { property: 'type', label: 'Tipo'}
