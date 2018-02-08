@@ -23,6 +23,48 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class EnumController extends AdminController
 {
+    public function moveUpAction()
+    {
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        /** @var Enum $entity */
+        $entity = $easyadmin['item'];
+
+        $entity->setPosition($entity->getPosition() - 1);
+
+        $this->getDoctrine()->getManager()->persist($entity);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirect($this->request->server->get('HTTP_REFERER'));
+    }
+
+    public function moveDownAction()
+    {
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        /** @var Enum $entity */
+        $entity = $easyadmin['item'];
+
+        $entity->setPosition($entity->getPosition() + 1);
+
+        $this->getDoctrine()->getManager()->persist($entity);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirect($this->request->server->get('HTTP_REFERER'));
+    }
+
+    protected function createNewEntity()
+    {
+        $enum = new Enum();
+
+        $type = $this->getDoctrine()->getRepository('PositibeEnumBundle:EnumType')->find(
+            $this->request->query->get('type')
+        );
+        $enum->setType($type);
+
+        return $enum;
+    }
+
+
+
     // Creates the Doctrine query builder used to get all the items. Override it
     // to filter the elements displayed in the listing
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
@@ -44,7 +86,7 @@ class EnumController extends AdminController
      */
     public function showTypeFilterAction($typeSelected)
     {
-        $types = $this->get('positibe.repository.enum_type')->findAll();
+        $types = $this->getDoctrine()->getRepository('PositibeEnumBundle:EnumType')->findAll();
 
         return $this->render(
             '@PositibeEnum/Enum/_type_selected.html.twig',
@@ -67,12 +109,10 @@ class EnumController extends AdminController
      * @param $enum
      * @param $type
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws \Throwable
-     * @throws \TypeError
      */
     public function changeEnumAction(Request $request, $class, $id, $field, $enum, $type)
     {
-        $enum = $this->get('positibe.repository.enum')->findEnumByType($enum, $type);
+        $enum = $this->getDoctrine()->getRepository('PositibeEnumBundle:EnumType')->findEnumByType($enum, $type);
         if ($enum !== null && $repository = $this->getDoctrine()->getRepository($class)
         ) {
             if ($object = $repository->find($id)) {
@@ -88,23 +128,4 @@ class EnumController extends AdminController
 
         return $this->redirect($referer);
     }
-
-    /**
-     * Load the correct locale for seo and menus depend of data_locale http parameter
-     *
-     * @param RequestConfiguration $configuration
-     * @return Enum|\Sylius\Component\Resource\Model\ResourceInterface
-     */
-    protected function findOr404(RequestConfiguration $configuration)
-    {
-        /** @var Enum $enum */
-        $enum = parent::findOr404($configuration);
-        if ($dataLocale = $configuration->getRequest()->get('data_locale')) {
-            $enum->setLocale($dataLocale);
-            $this->get('doctrine.orm.entity_manager')->refresh($enum);
-        }
-
-        return $enum;
-    }
-
 }

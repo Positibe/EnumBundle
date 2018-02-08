@@ -1,36 +1,8 @@
 services:
-#    positibe_enum.enum_initializer:
-#        class: Positibe\Bundle\EnumBundle\Initializer\EnumInitializer
-#        arguments: ["%positibe_enum.enum_types%", "@positibe.manager.enum_type", "@positibe.repository.enum_type", "@positibe.manager.enum", "@positibe.repository.enum"]
-#
-#    positibe_enum.enum_initializer_command:
-#        class: Positibe\Bundle\EnumBundle\Command\EnumInitializerCommand
-#        tags:
-#            - { name: console.command }
-#
-##Servicio autogenerado por Pcabreus Generator
-#    positibe_enum.enum.form:
-#        class: Positibe\Bundle\EnumBundle\Form\Type\EnumFormType
-#        arguments: ["@=container.hasParameter('locales') ? parameter('locales') : []"]
-##        calls:
-##            - [setLocales, [%locales%]]
-#        tags:
-#            - { name: form.type, alias: positibe_enum }
-#
-#
-##Servicio autogenerado por Pcabreus Generator
-#    positibe_enum.enum_type.form:
-#        class: Positibe\Bundle\EnumBundle\Form\Type\EnumTypeFormType
-#        tags:
-#            - { name: form.type, alias: positibe_enum_type }
-#
-#    positibe_enum.choice_enum.form:
-#        class: Positibe\Bundle\EnumBundle\Form\Type\ChoiceEnumType
-#        tags:
-#            - { name: form.type, alias: positibe_choice_enum }
-#
-#    positibe_enum.enum.factory:
-#        class: Positibe\Bundle\EnumBundle\Factory\EnumFactory
-#        arguments: ['Positibe\Bundle\EnumBundle\Entity\Enum']
-#        calls:
-#            - [setEm, [@doctrine.orm.entity_manager]]
+    Positibe\Bundle\EnumBundle\Initializer\EnumInitializer:
+        public: true
+        arguments: ["%positibe_enum.enum_types%","@doctrine.orm.entity_manager"]
+
+    Positibe\Bundle\EnumBundle\Command\EnumInitializerCommand:
+        tags:
+            - { name: console.command }

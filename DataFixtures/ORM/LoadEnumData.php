@@ -12,6 +12,7 @@ namespace Positibe\Bundle\EnumBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Positibe\Bundle\EnumBundle\Initializer\EnumInitializer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -29,7 +30,7 @@ class LoadEnumData implements FixtureInterface, ContainerAwareInterface
      */
     function load(ObjectManager $manager)
     {
-        $this->container->get('positibe_enum.enum_initializer')->initialize();
+        $this->container->get(EnumInitializer::class)->initialize();
     }
 
     /**

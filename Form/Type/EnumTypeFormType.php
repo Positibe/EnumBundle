@@ -7,7 +7,7 @@ namespace Positibe\Bundle\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EnumTypeFormType
@@ -27,9 +27,9 @@ class EnumTypeFormType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
@@ -37,13 +37,5 @@ class EnumTypeFormType extends AbstractType
                 'translation_domain' => 'PositibeEnumBundle'
             )
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'positibe_enum_type';
     }
 }

@@ -11,12 +11,9 @@
 namespace Positibe\Bundle\EnumBundle\Initializer;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Sluggable\Util\Urlizer;
 use Positibe\Bundle\EnumBundle\Entity\Enum;
 use Positibe\Bundle\EnumBundle\Entity\EnumType;
-use Positibe\Bundle\EnumBundle\Repository\EnumRepository;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 
 /**
@@ -28,34 +25,20 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 class EnumInitializer
 {
     private $enumTypes;
-    /** @var EnumRepository */
-    private $enumRepository;
-    /** @var  EntityManagerInterface */
-    private $enumManager;
-    /** @var EntityRepository */
-    private $enumTypeRepository;
-    /** @var  EntityManagerInterface */
-    private $enumTypeManager;
+    private $em;
 
-    public function __construct(
-        $enumTypes,
-        $enumTypeManager,
-        EntityRepository $enumTypeRepository,
-        $enumManager,
-        EntityRepository $enumRepository
-    ) {
+    public function __construct($enumTypes, EntityManager $entityManager)
+    {
         $this->enumTypes = $enumTypes;
-        $this->enumManager = $enumManager;
-        $this->enumRepository = $enumRepository;
-        $this->enumTypeRepository = $enumTypeRepository;
-        $this->enumTypeManager = $enumTypeManager;
+        $this->em = $entityManager;
     }
 
     public function initialize()
     {
         foreach ($this->enumTypes as $typeName => $enums) {
-            /** @var EnumType $type */
-            if (!$type = $this->enumTypeRepository->findOneBy(array('name' => $typeName))) {
+            if (!$type = $this->em->getRepository('PositibeEnumBundle:EnumType')->findOneBy(
+                array('name' => $typeName)
+            )) {
                 $type = new EnumType();
                 $type->setName($typeName);
 
@@ -63,13 +46,13 @@ class EnumInitializer
                     $type->setText($enums['_name']);
                 }
 
-                $this->enumTypeManager->persist($type);
+                $this->em->persist($type);
             }
             unset($enums['_name']);
 
             foreach ($enums as $name => $enumText) {
                 $name = Urlizer::urlize($name, '_');
-                if (!$enum = $this->enumRepository->findEnumByType($name, $typeName)) {
+                if (!$enum = $this->em->getRepository('PositibeEnumBundle:Enum')->findEnumByType($name, $typeName)) {
                     $enum = new Enum();
                 }
 
@@ -81,10 +64,10 @@ class EnumInitializer
                 $enum->setPosition($count);
                 $type->addEnum($enum);
 
-                $this->enumManager->persist($enum);
+                $this->em->persist($enum);
             }
-            $this->enumManager->flush();
+            $this->em->flush();
         }
-        $this->enumTypeManager->flush();
+        $this->em->flush();
     }
 } 

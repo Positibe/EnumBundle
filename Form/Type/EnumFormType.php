@@ -6,8 +6,9 @@
 namespace Positibe\Bundle\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EnumFormType
@@ -29,14 +30,14 @@ class EnumFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, array('label' => 'enum.form.name_label'))
-            ->add('position', null, array('label' => 'enum.form.position_label'))
-            ->add('text', null, array('label' => 'enum.form.text_label'))
-            ->add('type', null, array('label' => 'enum.form.type_label'));
+            ->add('name', null, ['label' => 'enum.form.name_label'])
+            ->add('position', null, ['label' => 'enum.form.position_label', 'required' => false])
+            ->add('text', null, ['label' => 'enum.form.text_label'])
+            ->add('type', null, ['label' => 'enum.form.type_label']);
         if (count($this->locales) > 0) {
             $builder->add(
                 'locale',
-                'choice',
+                ChoiceType::class,
                 array(
                     'label' => 'enum.form.locale_label',
                     'choices' => array_combine($this->locales, $this->locales),
@@ -47,9 +48,9 @@ class EnumFormType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
@@ -57,13 +58,5 @@ class EnumFormType extends AbstractType
                 'translation_domain' => 'PositibeEnumBundle',
             )
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'positibe_enum';
     }
 }

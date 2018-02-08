@@ -44,6 +44,7 @@ class EnumType
     /**
      * @var Enum[]|ArrayCollection
      *
+     * @ORM\OrderBy({"position": "ASC"})
      * @ORM\OneToMany(targetEntity="Positibe\Bundle\EnumBundle\Entity\Enum", mappedBy="type", cascade="all", orphanRemoval=TRUE)
      */
     private $enums;

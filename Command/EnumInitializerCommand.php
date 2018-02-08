@@ -10,6 +10,7 @@
 
 namespace Positibe\Bundle\EnumBundle\Command;
 
+use Positibe\Bundle\EnumBundle\Initializer\EnumInitializer;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,7 +33,7 @@ class EnumInitializerCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $inializer = $this->getContainer()->get('positibe_enum.enum_initializer');
+        $inializer = $this->getContainer()->get(EnumInitializer::class);
         try {
             $inializer->initialize();
         } catch (\Exception $e) {
